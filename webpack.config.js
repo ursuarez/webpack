@@ -1,6 +1,8 @@
 const
     path = require('path'),
-    config = {
+    MiniCssExtractPlugin = require('mini-css-extract-plugin')
+
+    module.exports = {
         entry: './index.js',
         mode: 'development',
         output: {
@@ -8,14 +10,18 @@ const
             filename: 'bundle.js'
         },
         module: {
-            rules:[{
+            rules: [{
                 test: /\.css$/,
-                use: [
-                    'style-loader',
-                    'css-loader'
-                ]
+                use: ExtractTextPlugin.extract({
+                    // En caso de que no funcione, fallback
+                    // Agrega el CSS al DOM en un <style>
+                    fallback: 'style-loader',
+                    // Interpreta archivos css en js
+                    use: 'css-loader'
+                })
             }]
-        }
+        },
+        plugin: [
+            new ExtractTextPlugin('css/styles.css')
+        ]
     }
-
-    module.exports = config
