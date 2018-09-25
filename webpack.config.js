@@ -1,27 +1,25 @@
-const
+const 
     path = require('path'),
-    MiniCssExtractPlugin = require('mini-css-extract-plugin')
-
-    module.exports = {
-        entry: './index.js',
+    MiniCssExtractPlugin = require('mini-css-extract-plugin'),
+    config = {
         mode: 'development',
+        entry: './index.js',
         output: {
-            path: path.resolve(__dirname, 'dist'),
-            filename: 'bundle.js'
+            filename: 'bundle.js',
+            path: path.resolve(__dirname, 'dist')
         },
         module: {
             rules: [{
                 test: /\.css$/,
-                use: ExtractTextPlugin.extract({
-                    // En caso de que no funcione, fallback
-                    // Agrega el CSS al DOM en un <style>
-                    fallback: 'style-loader',
-                    // Interpreta archivos css en js
-                    use: 'css-loader'
-                })
+                use: 
+                    [MiniCssExtractPlugin.loader, "css-loader"]
             }]
         },
-        plugin: [
-            new ExtractTextPlugin('css/styles.css')
+        plugins: [
+            new MiniCssExtractPlugin({
+                filename: "css/[name].css"
+            })
         ]
     }
+
+module.exports = config
